@@ -37,6 +37,8 @@ const Runner = {
     INSTANCE_TO_ID.set ( instance, cacheKey );
     INSTANCE_TO_WORKSPACE.set ( instance, workspace );
 
+    if ( cacheTerm && persistent ) return instance;
+
     await instance.processId;
     await delay ( 150 );
 
