@@ -44,6 +44,7 @@ The configuration is an object that looks like the following, most properties ar
   // First of all some global options are supported that all terminals defined below will inherit from
   "autorun": true, // Execute terminals automatically at startup or when the project is added to the workspace
   "autokill": true, // Kill all the terminals created from this configuration when the project is removed from the workspace
+  "dynamicTitle": true, // Default for all terminals; individual terminals can override it
 
   "env": { "name": "value" }, // Object containing custom environment variables
   "multiplexer": "screen", // The terminal multiplexer that persistent terminals will use, either "screen" or "tmux" are supported
@@ -92,6 +93,16 @@ The configuration is an object that looks like the following, most properties ar
 ```
 
 ## Details
+
+Set `dynamicTitle` once at the top of `terminals.json` to let terminals inherit it. A terminal's
+own boolean value overrides the default, including `false` for a fixed label. When omitted, the
+default remains `false`. The settings-based configuration also supports `terminals.dynamicTitle`.
+
+To display title sequences from programs instead of process names, set
+`"terminal.integrated.tabs.title": "${sequence}"` in the editor settings. With tmux, enable
+`set-titles` and choose a `set-titles-string`. This changes the visible label, not the configured
+terminal name or persistent session. Existing terminals must be recreated to pick up `dynamicTitle`;
+reattaching a persistent tmux terminal preserves its running program.
 
 - **Autorun/Autokill**: these features allow the extension to automatically run and kill terminals so that you don't have to explicitly run any command to set a project up after opening it, just opening it will be enough. It's an optional feature that you may not need at all, but that may be convenient to you.
 - **Global-level terminals**: you can also define additional global-level terminals in your VSCode settings files, that will be available in every project, using the same exact configuration format, but basically prefixing every top-level key with `terminals.`, so `terminals.autorun`, `terminals.terminals` etc., the rest stays unchanged.

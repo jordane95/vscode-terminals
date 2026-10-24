@@ -11,6 +11,11 @@
       "type": "boolean",
       "description": "Kill all the terminals created from this configuration when the project is removed from the workspace"
     },
+    "dynamicTitle": {
+      "type": "boolean",
+      "default": false,
+      "description": "Use dynamic terminal titles by default; individual terminals can override this setting"
+    },
     "env": {
       "type": "object",
       "description": " Object containing custom environment variables",

@@ -79,16 +79,17 @@ const getGroupFromUnknown = ( value: unknown, workspace?: string ): Group | unde
 
   const autorun = isBoolean ( value['autorun'] ) ? value['autorun'] : false;
   const autokill = isBoolean ( value['autokill'] ) ? value['autokill'] : false;
+  const dynamicTitle = isBoolean ( value['dynamicTitle'] ) ? value['dynamicTitle'] : false;
 
   const multiplexer = value['multiplexer'] === 'screen' || value['multiplexer'] === 'tmux' ? value['multiplexer'] : undefined;
   const shellPath = isString ( value['shellPath'] ) ? substitute ( untildify ( value['shellPath'] ) ) : undefined;
   const shellArgs = isArray ( value['shellArgs'] ) && value['shellArgs'].every ( isString ) ? value['shellArgs'].map ( substitute ) : [];
 
-  const group: Group = { autorun, autokill, workspace, env, multiplexer, shellPath, shellArgs, terminals: [] };
+  const group: Group = { autorun, autokill, dynamicTitle, workspace, env, multiplexer, shellPath, shellArgs, terminals: [] };
   const terminals = isArray ( value['terminals'] ) ? value['terminals'].map ( terminal => getTerminalFromUnknown ( terminal, group ) ).filter ( isTruthy ) : [];
 
   return {
-    autorun, autokill,
+    autorun, autokill, dynamicTitle,
     workspace,
     env, multiplexer, shellPath, shellArgs,
     terminals
@@ -213,7 +214,7 @@ const getTerminalFromUnknown = ( value: unknown, group: Group ): Terminal | unde
   const split = isString ( value['split'] ) ? value['split'] : undefined;
   const target = isString ( value['target'] ) ? value['target'] : undefined;
 
-  const dynamicTitle = isBoolean ( value['dynamicTitle'] ) ? value['dynamicTitle'] : false;
+  const dynamicTitle = isBoolean ( value['dynamicTitle'] ) ? value['dynamicTitle'] : group.dynamicTitle;
   const execute = isBoolean ( value['execute'] ) ? value['execute'] : true;
   const focus = isBoolean ( value['focus'] ) ? value['focus'] : false;
   const open = isBoolean ( value['open'] ) ? value['open'] : false;

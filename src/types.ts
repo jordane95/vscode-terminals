@@ -12,6 +12,7 @@ type Env = {
 type Group = {
   autorun: boolean,
   autokill: boolean,
+  dynamicTitle: boolean,
 
   workspace: string | undefined,
 
